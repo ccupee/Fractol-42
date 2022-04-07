@@ -139,14 +139,16 @@ void	check_arguments(t_fractol *data, int argc, char **argv)
 //
 
 //
-static t_complex	init_parameters(t_complex k, double a, double b)
+static t_complex	init_parameters(double a, double b)
 {
+	t_complex k;
+
 	k.re = a;
 	k.im = b;
 	return (k);
 }
 
-void	init_fractal(t_fractol *data, t_complex k)
+void	init_fractal(t_fractol *data, t_complex *k)
 {
 	data->color[0] = 3;
 	data->color[1] = 9;
@@ -154,14 +156,69 @@ void	init_fractal(t_fractol *data, t_complex k)
 	data->x0 = -500;
 	data->y0 = 500;
 	if (data->type == 1)
-		k = init_parameters(k, 0, 0);
+		*k = init_parameters(0, 0);
+	else if (data->type == 2)
+		*k = init_parameters(0.367811, 0.367811);
 	else if (data->type == 0)
-		k = init_parameters(k, 0.367811, 0.367811);
-	else
-		k = init_parameters(k, data->arg1, data->arg2);
+		*k = init_parameters(data->arg1, data->arg2);
 }
 //
 
+//drawing
+void	draw_fractal(t_fractol *data)
+{
+	int		i;
+	int		j;
+	double	x;
+	double	y;
+	int		iter;
+
+	i = 0;
+	while (i++ < WIDTH)
+	{
+		j = 0;
+		while (j++ < HEIGHT)
+		{
+			x = (data->x0 + i) / (double) data->scale;
+			y = (data->y0 - j) / (double) data->scale;
+			iter = choose_fractal(data, x, y);
+			data->final_color = ((255 - iter * data->color[0]) << 16)
+				+ ((255 - iter * data->color[1]) << 8) + \
+				(255 - iter * data->color[2]);
+			my_mlx_pixel_put(data, i, j, data->final_color);
+		}
+	}
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->image, 0, 0);
+}
+
+int	mandelbrot(double x, double y)
+{
+	t_complex	c;
+	t_complex	tmp;
+	int	i;
+
+	i = -1;
+	c.re = x;
+	c.im = y;
+	x = 0;
+	y = 0;
+	while (++i < 100 && (pow(x, 2) + pow(y, 2) <= 4))
+	{
+		tmp.re = pow(x, 2) + pow(y, 2);
+		tmp.im = 2 * x * y;
+		x = tmp.re + c.re;
+		y = tmp.im + c.im;
+	}
+	return (i);
+}
+
+
+int	choose_fractal(t_fractol *data, double x, double y)
+{
+	if (data->type == 1)
+		return (mandelbrot(x, y));
+	return (0);
+}
 
 int	main(int argc, char **argv)
 {
@@ -174,7 +231,9 @@ int	main(int argc, char **argv)
 	win_init(data);
 	check_arguments(data, argc, argv);
 	//win_init(data);
-
+	init_fractal(data, &k);
+	printf("%f\n", k.re);
+	printf("%f\n", k.im);
 	mlx_loop(data->mlx_ptr);
 	return (0);
 }

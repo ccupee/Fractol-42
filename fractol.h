@@ -6,6 +6,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 
+#include <stdio.h>
+
 # define WIDTH 1000
 # define HEIGHT 1000
 
@@ -20,6 +22,8 @@ typedef struct s_fractol
 	int		endian;
 	int		type;
 	int		color[3];
+	int		final_color;
+	double	scale;
 	double	arg1;
 	double	arg2;
 	double	x0;
