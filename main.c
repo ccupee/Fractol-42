@@ -1,5 +1,17 @@
 #include "fractol.h"
 
+static double	pow(double nbr, int pow)
+{
+	int	i;
+	double	res;
+
+	i = 0;
+	res = nbr;
+	while (++i <= pow)
+		res *= nbr;
+	return (res);
+}
+
 void	ft_putstr_fd(char *s, int fd)
 {
 	if (!s)
@@ -126,6 +138,7 @@ void	check_arguments(t_fractol *data, int argc, char **argv)
 }
 //
 
+//
 static t_complex	init_parameters(t_complex k, double a, double b)
 {
 	k.re = a;
@@ -141,13 +154,13 @@ void	init_fractal(t_fractol *data, t_complex k)
 	data->x0 = -500;
 	data->y0 = 500;
 	if (data->type == 1)
-		k =	init_parameters(k, 0, 0);
+		k = init_parameters(k, 0, 0);
 	else if (data->type == 0)
-		k =	init_parameters(k, 0.36, 0.36);
+		k = init_parameters(k, 0.367811, 0.367811);
 	else
 		k = init_parameters(k, data->arg1, data->arg2);
 }
-
+//
 
 
 int	main(int argc, char **argv)
@@ -157,7 +170,7 @@ int	main(int argc, char **argv)
 
 	data = (t_fractol *)malloc(sizeof(t_fractol));
 	if (!data)
-		error("ERROR: There is a problem with memory\n");
+		error("ERROR: Problems with memory\n");
 	win_init(data);
 	check_arguments(data, argc, argv);
 	//win_init(data);
