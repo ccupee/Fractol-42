@@ -8,8 +8,14 @@
 
 #include <stdio.h>/////
 
-# define WIDTH 1000
-# define HEIGHT 1000
+# define WIDTH			1000
+# define HEIGHT			1000
+# define KEY_ESC		53
+# define KEY_CROSS		17
+# define KEY_C			8
+# define SCROLL_UP		4
+# define SCROLL_DOWN	5
+# define MASK_CROSS		131072L
 
 typedef struct s_fractol
 {
@@ -23,6 +29,7 @@ typedef struct s_fractol
 	int		type;
 	int		color[3];
 	int		final_color;
+	int		n;
 	double	scale;
 	double	arg1;
 	double	arg2;
@@ -47,5 +54,13 @@ int		ft_expose_hook(t_fractol *data);
 void	init_fractal(t_fractol *data, t_complex *k);
 
 void	win_init(t_fractol *data);
+
+int	ft_expose_hook(t_fractol *data);
+
+int	ft_close_window(int keycode, t_fractol *list);
+
+int	ft_key_hook(int keycode, t_fractol *img);
+
+int	ft_mouse_hook(int keycode, int x, int y, t_fractol *img);
 
 #endif

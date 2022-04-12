@@ -15,10 +15,9 @@ void	win_init(t_fractol *data)
 	if (!data->data_addr)
 		error("ERROR: Can\'t initialize image\n");
 	mlx_expose_hook(data->win_ptr, ft_expose_hook, data);
-	// mlx_key_hook(data->win_ptr, ft_key_hook, data);
-	// mlx_hook(data->win_ptr, KEY_CROSS, MASK_CROSS, ft_close_window, data);
-	// mlx_mouse_hook(data->win_ptr, ft_mouse_hook, data);
-	//mlx_loop(data->win_ptr);
+	mlx_key_hook(data->win_ptr, ft_key_hook, data);
+	mlx_hook(data->win_ptr, KEY_CROSS, MASK_CROSS, ft_close_window, data);
+	mlx_mouse_hook(data->win_ptr, ft_mouse_hook, data);
 }
 
 static t_complex	init_parameters(double a, double b)
