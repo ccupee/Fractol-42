@@ -6,7 +6,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-#include <stdio.h>
+#include <stdio.h>/////
 
 # define WIDTH 1000
 # define HEIGHT 1000
@@ -35,5 +35,17 @@ typedef struct s_complex
 	double	re;
 	double	im;
 }				t_complex;
+
+void	check_arguments(t_fractol *data, int argc, char **argv);
+
+void	error(char *str);
+
+void	draw_fractal(t_fractol *data);
+
+int		ft_expose_hook(t_fractol *data);
+
+void	init_fractal(t_fractol *data, t_complex *k);
+
+void	win_init(t_fractol *data);
 
 #endif
