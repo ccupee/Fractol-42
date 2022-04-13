@@ -18,10 +18,17 @@ static void	get_color(t_fractol *img)
 	}
 	else if (img->n == 2)
 	{
-		img->n = 0;
+		img->n = 3;
 		img->color[0] = 3;
 		img->color[1] = 9;
 		img->color[2] = 7;
+	}
+	else if (img->n == 3)
+	{
+		img->n = 0;
+		img->color[0] = 23;
+		img->color[1] = 19;
+		img->color[2] = 5;
 	}
 }
 
