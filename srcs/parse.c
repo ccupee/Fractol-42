@@ -1,4 +1,16 @@
-#include "fractol.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: spgibber <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/14 13:17:28 by spgibber          #+#    #+#             */
+/*   Updated: 2022/04/14 13:17:29 by spgibber         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/fractol.h"
 
 static int	ft_strcmp(char *s1, char *s2)
 {
@@ -58,9 +70,11 @@ static void	check_name(t_fractol *data, char *name)
 		data->type = 0;
 	else if (!ft_strcmp(name, "Mandelbrot"))
 		data->type = 1;
+	else if (!ft_strcmp(name, "BurningShip"))
+		data->type = 3;
 	else
 		error("ERROR: No such fractal\n\
-			Correct names:\nJulia\nMandelbrot\n");
+			Correct names:\nJulia\nMandelbrot\nBurningShip\n");
 }
 
 void	check_arguments(t_fractol *data, int argc, char **argv)
@@ -70,7 +84,7 @@ void	check_arguments(t_fractol *data, int argc, char **argv)
 	else
 	{
 		check_name(data, argv[1]);
-		if (data->type == 1 && argc > 2)
+		if ((data->type == 1 || data->type == 3) && argc > 2)
 			error("ERROR: Wrong number of arguments\n");
 		if (data->type == 0)
 		{

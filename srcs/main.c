@@ -1,4 +1,16 @@
-#include "fractol.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: spgibber <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/14 13:17:02 by spgibber          #+#    #+#             */
+/*   Updated: 2022/04/14 13:17:05 by spgibber         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/fractol.h"
 
 void	win_init(t_fractol *data)
 {
@@ -6,12 +18,14 @@ void	win_init(t_fractol *data)
 	if (!data->mlx_ptr)
 		error("ERROR: Can\'t initialize window\n");
 	data->win_ptr = mlx_new_window(data->mlx_ptr, WIDTH, HEIGHT, "FRACTOL");
+	if (!data->win_ptr)
+		error("ERROR: Can\'t initialize window\n");
 	data->image = mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
 	if (!data->image)
 		error("ERROR: Can\'t initialize image\n");
-	data->data_addr = mlx_get_data_addr(data->image, \
-	&data->bits_per_pixel,
-			&data->line_length, &data->endian);
+	data->data_addr = mlx_get_data_addr(data->image,
+			&data->bits_per_pixel, &data->line_length,
+			&data->endian);
 	if (!data->data_addr)
 		error("ERROR: Can\'t initialize image\n");
 	mlx_expose_hook(data->win_ptr, ft_expose_hook, data);
@@ -22,7 +36,7 @@ void	win_init(t_fractol *data)
 
 static t_complex	init_parameters(double a, double b)
 {
-	t_complex k;
+	t_complex	k;
 
 	k.re = a;
 	k.im = b;
@@ -37,7 +51,7 @@ void	init_fractal(t_fractol *data, t_complex *k)
 	data->x0 = -500;
 	data->y0 = 500;
 	data->scale = 250;
-	if (data->type == 1)
+	if (data->type == 1 || data->type == 3)
 		*k = init_parameters(0, 0);
 	else if (data->type == 2)
 		*k = init_parameters(0.367811, 0.367811);
@@ -55,9 +69,10 @@ int	main(int argc, char **argv)
 	data = (t_fractol *)malloc(sizeof(t_fractol));
 	if (!data)
 		error("ERROR: Problems with memory\n");
-	win_init(data);
 	check_arguments(data, argc, argv);
 	init_fractal(data, &k);
+	win_init(data);
 	mlx_loop(data->mlx_ptr);
+	free (data);
 	return (0);
 }

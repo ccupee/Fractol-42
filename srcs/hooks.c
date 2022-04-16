@@ -1,4 +1,16 @@
-#include "fractol.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hooks.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: spgibber <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/14 13:15:54 by spgibber          #+#    #+#             */
+/*   Updated: 2022/04/14 13:15:59 by spgibber         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/fractol.h"
 
 static void	get_color(t_fractol *img)
 {
@@ -18,17 +30,10 @@ static void	get_color(t_fractol *img)
 	}
 	else if (img->n == 2)
 	{
-		img->n = 3;
+		img->n = 0;
 		img->color[0] = 3;
 		img->color[1] = 9;
 		img->color[2] = 7;
-	}
-	else if (img->n == 3)
-	{
-		img->n = 0;
-		img->color[0] = 23;
-		img->color[1] = 19;
-		img->color[2] = 5;
 	}
 }
 
